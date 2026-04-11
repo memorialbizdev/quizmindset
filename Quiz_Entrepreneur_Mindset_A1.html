@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Entrepreneur Mindset A1 Series</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:   #0C1A3A;
+  --blue:   #1840A0;
+  --lblue:  #2A5DD8;
+  --gold:   #D4A843;
+  --goldl:  #FBF0D0;
+  --white:  #FFFFFF;
+  --offwhite: #F7F8FC;
+  --gray:   #E8ECF5;
+  --mid:    #7A849E;
+  --dark:   #1A2240;
+  --green:  #15803D;
+  --greenl: #DCFCE7;
+  --red:    #B91C1C;
+  --redl:   #FEE2E2;
+  --amber:  #D97706;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  min-height: 100vh;
+  color: var(--dark);
+  overflow-x: hidden;
+}
+
+/* BG texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(26,64,160,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(212,168,67,0.12) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SCREEN SYSTEM ── */
+.screen { display: none; position: relative; z-index: 1; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ── INTRO SCREEN ── */
+#screen-intro {
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,168,67,0.15);
+  border: 1px solid rgba(212,168,67,0.4);
+  color: var(--gold);
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+
+.intro-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 8vw, 52px);
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+.intro-title .accent { color: var(--gold); display: block; }
+
+.intro-subtitle {
+  font-size: 16px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 36px;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+.stats-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.stat-pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: var(--white);
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.name-section {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 28px;
+}
+.name-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.name-input {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.name-input::placeholder { color: rgba(255,255,255,0.3); }
+.name-input:focus { border-color: var(--gold); }
+
+.sections-preview {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 32px;
+  max-width: 400px;
+}
+.section-chip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+.section-chip .dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.btn-start {
+  background: var(--gold);
+  color: var(--navy);
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 16px 48px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+  box-shadow: 0 4px 24px rgba(212,168,67,0.35);
+}
+.btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(212,168,67,0.45); }
+.btn-start:active { transform: translateY(0); }
+.btn-start:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  flex-direction: column;
+  padding: 0;
+}
+
+/* TOP BAR */
+.quiz-topbar {
+  padding: 16px 20px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(12,26,58,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.q-counter {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #FBBF24);
+  border-radius: 100px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.score-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+.score-badge span { color: var(--gold); }
+
+/* SECTION LABEL */
+.section-banner {
+  margin: 20px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeUp 0.3s ease both;
+}
+.section-tag {
+  background: rgba(212,168,67,0.15);
+  border: 1px solid rgba(212,168,67,0.3);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.section-name {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  font-weight: 500;
+}
+
+/* QUESTION CARD */
+.q-card {
+  margin: 12px 20px 0;
+  background: rgba(255,255,255,0.95);
+  border-radius: 20px;
+  padding: 24px;
+  animation: fadeUp 0.35s ease both;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+
+.q-type-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.q-type-badge.pilgan { background: #EFF6FF; color: #1D4ED8; }
+.q-type-badge.scenario { background: #FEF3C7; color: #92400E; }
+.q-type-badge.refleksi { background: #F0FDF4; color: #15803D; }
+.q-type-badge.aplikasi { background: #FDF4FF; color: #7E22CE; }
+
+.q-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.4;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.q-context {
+  font-size: 13px;
+  color: var(--mid);
+  line-height: 1.55;
+  margin-bottom: 20px;
+  font-style: italic;
+  padding: 10px 14px;
+  background: var(--offwhite);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+}
+
+/* OPTIONS */
+.options { display: flex; flex-direction: column; gap: 10px; }
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid var(--gray);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+  background: var(--white);
+  text-align: left;
+  width: 100%;
+}
+.option:hover:not(:disabled) {
+  border-color: var(--lblue);
+  background: #F0F5FF;
+  transform: translateX(3px);
+}
+.option:disabled { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--gray);
+  color: var(--mid);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+.opt-text {
+  font-size: 14px;
+  color: var(--dark);
+  line-height: 1.45;
+  padding-top: 4px;
+}
+
+/* Option states */
+.option.selected { border-color: var(--lblue); background: #EEF4FF; }
+.option.selected .opt-letter { background: var(--lblue); color: white; }
+
+.option.correct { border-color: var(--green); background: var(--greenl); }
+.option.correct .opt-letter { background: var(--green); color: white; }
+
+.option.wrong { border-color: var(--red); background: var(--redl); }
+.option.wrong .opt-letter { background: var(--red); color: white; }
+
+.option.reveal-correct { border-color: var(--green); background: var(--greenl); opacity: 0.7; }
+.option.reveal-correct .opt-letter { background: var(--green); color: white; }
+
+/* FEEDBACK */
+.feedback {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  display: none;
+  animation: fadeUp 0.25s ease both;
+}
+.feedback.show { display: block; }
+.feedback.correct-fb { background: var(--greenl); border: 1.5px solid #86EFAC; }
+.feedback.wrong-fb { background: var(--redl); border: 1.5px solid #FCA5A5; }
+.feedback-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.feedback.correct-fb .feedback-title { color: var(--green); }
+.feedback.wrong-fb .feedback-title { color: var(--red); }
+.feedback-text { font-size: 13px; line-height: 1.55; color: var(--dark); }
+.feedback-insight {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--mid);
+  font-style: italic;
+  line-height: 1.5;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0,0,0,0.07);
+}
+
+/* NEXT BUTTON */
+.btn-next {
+  margin: 20px 20px 24px;
+  width: calc(100% - 40px);
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  animation: fadeUp 0.3s ease both;
+}
+.btn-next.show { display: flex; }
+.btn-next:hover { background: var(--blue); }
+.btn-next .arrow { font-size: 18px; transition: transform 0.2s; }
+.btn-next:hover .arrow { transform: translateX(4px); }
+
+/* ── RESULT SCREEN ── */
+#screen-result {
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.result-circle {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 3px solid var(--gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  box-shadow: 0 0 40px rgba(212,168,67,0.25);
+  animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.result-score-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+.result-score-denom {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 2px;
+}
+
+.result-grade {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 6px;
+  animation: fadeUp 0.4s 0.2s ease both;
+}
+.result-grade .grade-letter {
+  color: var(--gold);
+  font-size: 36px;
+}
+.result-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  max-width: 340px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  animation: fadeUp 0.4s 0.3s ease both;
+}
+
+.result-breakdown {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.4s 0.4s ease both;
+}
+.breakdown-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  text-align: left;
+}
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.breakdown-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  width: 130px;
+  text-align: left;
+  flex-shrink: 0;
+}
+.breakdown-bar-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.breakdown-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--gold), #FBBF24);
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+.breakdown-pct {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  width: 36px;
+  text-align: right;
+}
+
+.result-message {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  text-align: left;
+  animation: fadeUp 0.4s 0.5s ease both;
+}
+.result-message.champion { background: rgba(21,128,61,0.2); border: 1px solid rgba(21,128,61,0.3); }
+.result-message.baik { background: rgba(26,64,160,0.2); border: 1px solid rgba(26,64,160,0.3); }
+.result-message.cukup { background: rgba(217,119,6,0.2); border: 1px solid rgba(217,119,6,0.3); }
+.result-message.kurang { background: rgba(185,28,28,0.2); border: 1px solid rgba(185,28,28,0.3); }
+
+.result-msg-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.result-msg-text { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+
+.btn-retry {
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: fadeUp 0.4s 0.6s ease both;
+}
+.btn-retry:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.25); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Scroll */
+#screen-quiz { overflow-y: auto; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 1: INTRO
+══════════════════════════════════════════════════════════ -->
+<div id="screen-intro" class="screen active">
+  <div class="intro-badge">
+    <span>●</span> A1 Series · LNS Pemakaman
+  </div>
+  <div class="intro-title">
+    Entrepreneur
+    <span class="accent">Mindset Quiz</span>
+  </div>
+  <div class="intro-subtitle">
+    Uji pemahaman kamu terhadap 5 Mindset Champion Attitude dan kemampuan menerapkannya sebagai network marketer yang sukses.
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-pill">
+      <div class="stat-num">20</div>
+      <div class="stat-label">Soal</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Mindset</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Tipe Soal</div>
+    </div>
+  </div>
+
+  <div class="sections-preview">
+    <div class="section-chip"><span class="dot"></span>Fondasi Mindset</div>
+    <div class="section-chip"><span class="dot"></span>Self-Responsibility</div>
+    <div class="section-chip"><span class="dot"></span>Mental Pengusaha</div>
+    <div class="section-chip"><span class="dot"></span>Obsesi & Kerja Keras</div>
+    <div class="section-chip"><span class="dot"></span>Percaya Diri</div>
+    <div class="section-chip"><span class="dot"></span>Aplikasi Lapangan</div>
+  </div>
+
+  <div class="name-section">
+    <div class="name-label">Nama Kamu</div>
+    <input type="text" id="player-name" class="name-input" placeholder="Tulis nama kamu di sini..." maxlength="40">
+  </div>
+
+  <button class="btn-start" id="btn-start" onclick="startQuiz()" disabled>
+    Mulai Quiz →
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 2: QUIZ
+══════════════════════════════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-topbar">
+    <div class="q-counter" id="q-counter">Soal 1 / 20</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:5%"></div>
+    </div>
+    <div class="score-badge">Benar: <span id="score-display">0</span></div>
+  </div>
+
+  <div class="section-banner">
+    <div class="section-tag" id="section-tag">Fondasi</div>
+    <div class="section-name" id="section-name">Mindset & Sikap</div>
+  </div>
+
+  <div class="q-card" id="q-card">
+    <div class="q-type-badge pilgan" id="q-type-badge">Pilihan Ganda</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-context" id="q-context" style="display:none"></div>
+    <div class="options" id="options-container"></div>
+    <div class="feedback" id="feedback">
+      <div class="feedback-title" id="fb-title"></div>
+      <div class="feedback-text" id="fb-text"></div>
+      <div class="feedback-insight" id="fb-insight"></div>
+    </div>
+  </div>
+
+  <button class="btn-next" id="btn-next" onclick="nextQuestion()">
+    Soal Berikutnya <span class="arrow">→</span>
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN 3: RESULT
+══════════════════════════════════════════════════════════ -->
+<div id="screen-result" class="screen">
+  <div class="result-circle">
+    <div class="result-score-num" id="res-score">0</div>
+    <div class="result-score-denom" id="res-denom">dari 20</div>
+  </div>
+  <div class="result-grade" id="res-grade">
+    Grade: <span class="grade-letter" id="res-letter">-</span>
+  </div>
+  <div class="result-desc" id="res-desc"></div>
+
+  <div class="result-breakdown">
+    <div class="breakdown-title">Skor per Mindset</div>
+    <div id="breakdown-rows"></div>
+  </div>
+
+  <div class="result-message" id="res-message">
+    <div class="result-msg-title" id="res-msg-title"></div>
+    <div class="result-msg-text" id="res-msg-text"></div>
+  </div>
+
+  <!-- Status pengiriman ke Google Sheet -->
+  <div id="submit-status" style="
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    color: rgba(255,255,255,0.5);
+    min-height: 20px;
+    animation: fadeUp 0.4s 0.65s ease both;
+    opacity: 0;
+    animation-fill-mode: both;
+  "></div>
+
+  <button class="btn-retry" onclick="retryQuiz()">↺ Coba Lagi</button>
+</div>
+
+
+<script>
+// ══════════════════════════════════════════════════════════
+// DATA SOAL — 20 Pertanyaan, 5 Mindset
+// ══════════════════════════════════════════════════════════
+const QUESTIONS = [
+
+  // ── FONDASI (Q1-2) ──
+  {
+    section: "Fondasi Mindset",
+    sectionShort: "Fondasi",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Menurut prinsip dasar Entrepreneur Mindset, faktor apa yang paling menentukan keberhasilan seorang LBP (Business Partner)?",
+    options: [
+      "Pengalaman kerja sebelumnya dan luasnya jaringan pertemanan",
+      "Sikap dan mindset (80%) didukung skill yang terus berkembang (20%)",
+      "Modal investasi awal yang besar untuk membuktikan keseriusan",
+      "Latar belakang pendidikan formal di bidang bisnis atau pemasaran"
+    ],
+    correct: 1,
+    feedback: "Tepat! Prinsip 80/20 adalah fondasi dari seluruh materi ini.",
+    insight: "Orang biasa dengan mindset benar secara konsisten mengalahkan orang 'pintar' dengan mindset yang salah. Itulah mengapa mindset menjadi Modul 1."
+  },
+  {
+    section: "Fondasi Mindset",
+    sectionShort: "Fondasi",
+    type: "scenario",
+    typeLabel: "Skenario",
+    text: "Bisnis LNS digambarkan seperti 'harta karun yang tersamar.' Apa implikasi praktis dari analogi ini bagi cara kamu mempresentasikan bisnis ke prospek?",
+    context: "Di training, trainer menjelaskan bahwa bisnis ini 'sederhana, indah, namun tersamar' — berbeda dengan rumah mewah yang bagus di luar tapi bermasalah di dalam.",
+    options: [
+      "Sembunyikan fakta bahwa ini bisnis pemakaman sampai prospek tertarik",
+      "Langsung tunjukkan slide komisi agar prospek terkesan dari awal",
+      "Bantu prospek 'menyelam lebih dalam' — jangan biarkan mereka menilai dari kesan pertama saja",
+      "Gunakan nama bisnis yang berbeda agar tidak terkesan sebagai MLM"
+    ],
+    correct: 2,
+    feedback: "Benar! Tugas kita adalah membantu prospek melewati kesan pertama yang tersamar menuju pemahaman yang sesungguhnya.",
+    insight: "Banyak LBP gagal di sini karena menyerah terlalu cepat ketika prospek menolak dari kesan pertama. Harta karun perlu digali — tidak langsung terlihat dari permukaan."
+  },
+
+  // ── MINDSET 1: SELF-RESPONSIBILITY (Q3-5) ──
+  {
+    section: "Mindset 1 — Self-Responsibility",
+    sectionShort: "Mindset 1",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Prinsip 'If it is to be, it's up to me' dalam konteks bisnis LNS berarti...",
+    options: [
+      "Kamu boleh meminta bantuan upline untuk semua kesulitan yang dihadapi",
+      "Keberhasilan dan kegagalan bisnis sepenuhnya ada di tangan kamu sendiri",
+      "Kamu tidak perlu mengikuti training karena bisa belajar sendiri",
+      "Upline bertanggung jawab atas hasil yang kamu capai"
+    ],
+    correct: 1,
+    feedback: "Benar! Tidak ada korban, tidak ada penyelamat — kamu yang menentukan.",
+    insight: "Prinsip ini bukan berarti kamu sendirian. Support system ada. Tapi keputusan untuk membuka pintu dari dalam — itu 100% ada di tanganmu."
+  },
+  {
+    section: "Mindset 1 — Self-Responsibility",
+    sectionShort: "Mindset 1",
+    type: "scenario",
+    typeLabel: "Skenario",
+    text: "Roni sudah 3 bulan join LNS. Penjualannya belum bagus. Ia berkata: 'Upline saya jarang bisa dihubungi, makanya saya susah berkembang.' Respons mana yang paling mencerminkan Mindset 1?",
+    context: "Roni adalah contoh kasus nyata yang sering ditemui di lapangan.",
+    options: [
+      "Setuju — upline yang baik memang kunci keberhasilan downline",
+      "Sarankan Roni untuk pindah ke upline yang lebih aktif dan supportif",
+      "Tanyakan ke Roni: 'Selain menunggu upline, apa yang sudah kamu coba lakukan sendiri?'",
+      "Lapor ke manajemen bahwa ada masalah sistem support di jaringan"
+    ],
+    correct: 2,
+    feedback: "Tepat! Respons ini mengarahkan Roni untuk mengambil tanggung jawab penuh atas kondisinya.",
+    insight: "Menyalahkan upline adalah tanda khas mental pekerja. Mental pengusaha selalu bertanya: 'Apa yang BISA saya lakukan dengan sumber daya yang ada?'"
+  },
+  {
+    section: "Mindset 1 — Self-Responsibility",
+    sectionShort: "Mindset 1",
+    type: "aplikasi",
+    typeLabel: "Aplikasi Nyata",
+    text: "Dalam Mirror Exercise, kamu diminta menulis 3 alasan HARUS sukses. Manakah formulasi yang PALING KUAT sebagai motivasi?",
+    options: [
+      "'Saya ingin hidup lebih nyaman dan punya tabungan yang cukup'",
+      "'Saya mau coba bisnis ini dan lihat hasilnya nanti'",
+      "'Saya HARUS sukses sebelum Agustus 2026 karena anak saya mulai SMA dan saya tidak mau mereka putus sekolah karena biaya'",
+      "'Saya ingin membuktikan kepada orang-orang yang meragukan saya'"
+    ],
+    correct: 2,
+    feedback: "Benar! WHY yang kuat harus spesifik, ada deadline, dan ada konsekuensi nyata jika tidak tercapai.",
+    insight: "WHY yang lemah adalah 'ingin lebih baik.' WHY yang kuat adalah alasan yang membuat kamu tidak bisa tidur kalau belum dikerjakan."
+  },
+
+  // ── MINDSET 2: MENTAL PENGUSAHA (Q6-9) ──
+  {
+    section: "Mindset 2 — Mental Pengusaha",
+    sectionShort: "Mindset 2",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Mana yang BUKAN termasuk ciri Mental Pengusaha dalam konteks LNS?",
+    options: [
+      "Mengambil inisiatif tanpa menunggu instruksi dari upline",
+      "Bersedia dibayar rendah di awal demi hasil yang besar di kemudian hari",
+      "Meminta upline untuk closing bersama di setiap presentasi agar tidak gagal",
+      "Menganggap bisnis ini sebagai milik sendiri dan memberikan yang terbaik"
+    ],
+    correct: 2,
+    feedback: "Tepat! Selalu bergantung pada upline untuk closing adalah ciri khas mental pekerja.",
+    insight: "Meminta pendampingan saat belajar itu wajar. Tapi kalau setiap closing harus ada upline, itu artinya kamu belum mandiri dan bisnismu tidak bisa berjalan tanpanya."
+  },
+  {
+    section: "Mindset 2 — Mental Pengusaha",
+    sectionShort: "Mindset 2",
+    type: "scenario",
+    typeLabel: "Skenario",
+    text: "Sandra baru saja closing 1 paket. Ia tidak punya kendaraan untuk antar dokumen ke customer yang jauh. Respons mana yang mencerminkan mental pengusaha?",
+    options: [
+      "Tunda sampai ada yang bisa mengantar, customer biasanya mengerti",
+      "Minta upline yang handle karena upline punya kendaraan",
+      "Gunakan ojek online, titip teman yang searah, atau minta customer ambil di titik tertentu",
+      "Batalkan saja karena terlalu merepotkan dan margin tipis"
+    ],
+    correct: 2,
+    feedback: "Benar! Mental pengusaha tidak menunggu kondisi sempurna — ia mencari jalan dengan apapun yang ada.",
+    insight: "'Tidak ada fasilitas' adalah alasan paling umum yang dipakai mental pekerja. Mental pengusaha selalu berpikir: 'Bagaimana caranya?' bukan 'Kenapa tidak bisa?'"
+  },
+  {
+    section: "Mindset 2 — Mental Pengusaha",
+    sectionShort: "Mindset 2",
+    type: "aplikasi",
+    typeLabel: "Aplikasi Nyata",
+    text: "Dalam Attitude Test, trainer meminta peserta menulis minimal 10 nama prospek dalam 3 menit. Reza hanya menulis 6. Apa yang paling tepat disimpulkan dan apa tindak lanjutnya?",
+    options: [
+      "Reza sedang kurang fokus hari ini, coba tes lagi besok",
+      "Reza kemungkinan menunjukkan mental pekerja — perlu coaching tentang ownership dan melebihi minimum",
+      "Reza mungkin tidak punya banyak kenalan, perlu diajari cara memperluas networking",
+      "Tidak ada masalah — 6 nama sudah cukup untuk memulai"
+    ],
+    correct: 1,
+    feedback: "Tepat! Attitude test bukan tentang seberapa banyak kenalan — tapi seberapa besar effort yang diberikan.",
+    insight: "Mental pengusaha selalu memberi lebih dari yang diminta. Dikasih tugas 10, kerjakan 30. Itulah orang yang akan selalu dicari dan sukses dalam jangka panjang."
+  },
+  {
+    section: "Mindset 2 — Mental Pengusaha",
+    sectionShort: "Mindset 2",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Pilar Sikap Mandiri nomor berapa yang berbunyi 'Jangan tanya apa yang upline bisa lakukan untukmu, tapi apa yang bisa KAMU lakukan untuk tim'?",
+    options: [
+      "Pilar 1 — Ini bisnis saya sendiri",
+      "Pilar 3 — Tidak menyalahkan upline",
+      "Pilar 5 — Kontribusi, bukan konsumsi",
+      "Pilar 2 — Tidak bergantung kepada upline"
+    ],
+    correct: 2,
+    feedback: "Benar! Pilar 5 adalah tentang kontribusi aktif ke tim, bukan pasif menunggu bantuan.",
+    insight: "Prinsip ini terinspirasi dari JFK: 'Bukan apa yang negara bisa buat untukmu, tapi apa yang bisa kamu buat untuk negaramu.' Mindset yang sama berlaku di bisnis network."
+  },
+
+  // ── MINDSET 3: OBSESI (Q10-12) ──
+  {
+    section: "Mindset 3 — Obsesi",
+    sectionShort: "Mindset 3",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Mengapa 'Be Obsessed or Be Average' menjadi prinsip penting dalam bisnis MLM khususnya di fase awal?",
+    options: [
+      "Karena bisnis MLM membutuhkan modal besar yang harus dikejar dengan kerja ekstra",
+      "Karena tanpa obsesi, seseorang akan menyerah di Fase 1 — tepat sebelum hasil mulai datang di Fase 3",
+      "Karena kompetitor bisnis pemakaman sangat banyak dan agresif",
+      "Karena upline mengharapkan downline bekerja tanpa henti"
+    ],
+    correct: 1,
+    feedback: "Tepat! Kebanyakan orang menyerah di Fase 1 — persis sebelum panen. Obsesi adalah yang membuat mereka bertahan.",
+    insight: "Fase 1 (bln 1-6): tanam. Fase 2 (bln 7-18): tumbuh. Fase 3 (bln 18+): panen. Tanpa obsesi, seseorang selalu berhenti di Fase 1 dan tidak pernah melihat Fase 3."
+  },
+  {
+    section: "Mindset 3 — Obsesi",
+    sectionShort: "Mindset 3",
+    type: "scenario",
+    typeLabel: "Skenario",
+    text: "Bulan ke-4, Hendra hampir tidak ada penjualan. Ia bilang: 'Mungkin bisnis ini memang tidak cocok buat saya.' Bagaimana cara merespons dengan tepat menggunakan Mindset 3?",
+    context: "Hendra adalah salah satu LBP yang punya potensi besar tapi mulai kehilangan semangat.",
+    options: [
+      "Setuju bahwa tidak semua bisnis cocok untuk semua orang, sarankan bisnis lain",
+      "Berikan insentif atau bonus agar ia tetap termotivasi bulan depan",
+      "Tanyakan: 'Kalau kamu berhenti hari ini dan 10 tahun lagi punya kesempatan yang sama — apa yang akan kamu sesali?' Lalu hubungkan ke Fase 1 vs Fase 3.",
+      "Hubungi lebih sering dan bantu closing agar ia merasa ada hasil"
+    ],
+    correct: 2,
+    feedback: "Benar! Coaching yang kuat mengembalikan orang ke WHY-nya dan memberikan perspektif jangka panjang.",
+    insight: "Menyerah di bulan ke-4 adalah pola yang paling umum dan paling disayangkan. Tugas seorang leader adalah membantu downline melihat Fase 3 sebelum mereka menyerah di Fase 1."
+  },
+  {
+    section: "Mindset 3 — Obsesi",
+    sectionShort: "Mindset 3",
+    type: "aplikasi",
+    typeLabel: "Aplikasi Nyata",
+    text: "Apa perbedaan antara 'ingin sukses' dan 'terobsesi untuk sukses' dalam konteks tindakan sehari-hari sebagai LBP?",
+    options: [
+      "Tidak ada perbedaan — keduanya menunjukkan motivasi yang sama",
+      "Yang ingin sukses menetapkan target; yang terobsesi punya target dan lebih rajin posting di media sosial",
+      "Yang ingin sukses bekerja saat kondisi mendukung; yang terobsesi bekerja terlepas dari kondisi apapun — sakit, hujan, ditolak — karena tidak ada pilihan lain",
+      "Yang terobsesi cenderung memaksakan produk ke orang lain tanpa memikirkan kebutuhan customer"
+    ],
+    correct: 2,
+    feedback: "Tepat! Perbedaan terbesar adalah pada kondisionalitas — obsesi tidak menunggu kondisi sempurna.",
+    insight: "Orang yang 'ingin' sukses berhenti saat lelah. Orang yang 'terobsesi' terus jalan karena tidak punya pilihan lain — sama seperti rusa yang berlari bukan karena mau, tapi karena hidupnya bergantung padanya."
+  },
+
+  // ── MINDSET 4: BEKERJA KERAS (Q13-15) ──
+  {
+    section: "Mindset 4 — Bekerja Keras",
+    sectionShort: "Mindset 4",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Analogi 'Berjuanglah seakan hidup kamu bergantung sepenuhnya padanya' dalam konteks LNS berarti...",
+    options: [
+      "Kamu harus mengorbankan kesehatan dan keluarga demi bisnis ini",
+      "Berikan effort maksimal yang sama persis seperti satu-satunya sumber penghasilanmu ada di sini",
+      "Jangan join bisnis lain karena LNS harus menjadi fokus total",
+      "Targetkan finansial freedom dalam waktu 6 bulan pertama"
+    ],
+    correct: 1,
+    feedback: "Benar! Ini soal intensitas effort — bukan tentang meninggalkan hal lain.",
+    insight: "Pemilik restoran yang restorannya sepi tidak bisa tidur. Karyawannya? Tidur nyenyak. Perbedaan ini bukan soal jam kerja — tapi soal rasa memiliki dan ketergantungan pada hasil."
+  },
+  {
+    section: "Mindset 4 — Bekerja Keras",
+    sectionShort: "Mindset 4",
+    type: "scenario",
+    typeLabel: "Skenario",
+    text: "Dua orang join LNS di waktu yang sama. Rini prospek 3 orang per hari dan hadir di semua event. Budi prospek 1 orang per minggu dan sering absen meeting karena 'sibuk.' Setelah 12 bulan, siapa yang kemungkinan besar sudah di Fase 2 dan mengapa?",
+    options: [
+      "Budi, karena ia lebih selektif dalam memilih prospek yang berkualitas",
+      "Keduanya sama saja karena kualitas lebih penting dari kuantitas",
+      "Rini, karena volume aktivitas yang konsisten menciptakan momentum yang tidak bisa digantikan oleh selektivitas",
+      "Tidak bisa diprediksi — tergantung keberuntungan dan timing pasar"
+    ],
+    correct: 2,
+    feedback: "Tepat! Dalam MLM khususnya di fase awal, konsistensi volume > selektivitas.",
+    insight: "Kerja keras bukan berarti kerja tanpa pikiran. Tapi di fase awal, satu-satunya cara membangun momentum adalah dengan volume aktivitas yang tinggi dan konsisten — bukan menunggu moment yang 'tepat'."
+  },
+  {
+    section: "Mindset 4 — Bekerja Keras",
+    sectionShort: "Mindset 4",
+    type: "aplikasi",
+    typeLabel: "Aplikasi Nyata",
+    text: "Mengapa orang yang sudah investasi besar (uang, waktu, reputasi) cenderung bekerja lebih keras dalam bisnis? Apa implikasinya untuk cara kamu memperlakukan bisnis LNS?",
+    options: [
+      "Karena mereka takut rugi — ini motivasi negatif yang tidak sustainable",
+      "Karena investasi besar menciptakan rasa memiliki yang kuat, yang mendorong effort maksimal — maka perlakukan LNS seolah kamu sudah investasi 1 Milyard di sini",
+      "Karena mereka memiliki keunggulan kompetitif berupa modal finansial yang lebih besar",
+      "Tidak ada kaitan langsung antara besar investasi dengan intensitas kerja"
+    ],
+    correct: 1,
+    feedback: "Benar! Ini adalah insight psikologis yang sangat penting: rasa memiliki mendorong effort.",
+    insight: "Bisnis LNS tidak membutuhkan investasi besar secara finansial. Tapi kamu bisa menciptakan rasa 'sudah investasi besar' secara mental dengan memperlakukannya sebagai bisnis utama dan terpenting dalam hidupmu."
+  },
+
+  // ── MINDSET 5: PERCAYA DIRI (Q16-18) ──
+  {
+    section: "Mindset 5 — Percaya Diri",
+    sectionShort: "Mindset 5",
+    type: "pilgan",
+    typeLabel: "Pilihan Ganda",
+    text: "Mengapa seorang LBP yang tidak percaya pada produknya akan sulit closing, bahkan sebelum ia mengucapkan sepatah kata pun kepada prospek?",
+    options: [
+      "Karena prospek selalu browsing review produk di internet sebelum meeting",
+      "Karena keraguan tersampaikan melalui bahasa tubuh, sorot mata, dan nada bicara — bukan hanya kata-kata",
+      "Karena prospek bisa mendeteksi kebohongan melalui pertanyaan teknis yang sulit",
+      "Karena produk pemakaman memang butuh keyakinan khusus yang tidak semua orang punya"
+    ],
+    correct: 1,
+    feedback: "Tepat! Energi dan keyakinan menular — begitu juga keraguan.",
+    insight: "Penelitian komunikasi menunjukkan bahwa 55% komunikasi adalah bahasa tubuh, 38% adalah nada suara, dan hanya 7% adalah kata-kata. Artinya, percaya atau tidak percaya — prospek akan merasakannya jauh sebelum kamu selesai presentasi."
+  },
+  {
+    section: "Mindset 5 — Percaya Diri",
+    sectionShort: "Mindset 5",
+    type: "scenario",
+    typeLabel: "Skenario",
+    text: "Lia merasa tidak percaya diri saat presentasi karena 'tidak sepandai rekan-rekannya yang sudah berpengalaman.' Saran mana yang paling tepat berdasarkan Mindset 5?",
+    context: "Lia baru 2 bulan di LNS dan sering membandingkan dirinya dengan yang sudah senior.",
+    options: [
+      "Sarankan Lia untuk lebih banyak menonton rekan-rekannya presentasi dan meniru gaya mereka",
+      "Yakinkan Lia bahwa ia sudah bagus dan tidak perlu khawatir",
+      "Jelaskan bahwa kepercayaan diri dibangun melalui Skill Mastery + Konsistensi — bukan dibandingkan dengan orang lain. Fokus pada latihan dan repetisi.",
+      "Pasangkan Lia dengan rekan yang lebih senior untuk semua presentasi sampai ia merasa siap"
+    ],
+    correct: 2,
+    feedback: "Benar! Kepercayaan diri adalah hasil, bukan titik awal. Ia dibangun melalui kompetensi.",
+    insight: "Membandingkan diri dengan yang lebih senior adalah jebakan. Orang senior itu dulunya juga pemula. Yang membedakan adalah berapa banyak repetisi yang sudah mereka lakukan — bukan bakat bawaan."
+  },
+  {
+    section: "Mindset 5 — Percaya Diri",
+    sectionShort: "Mindset 5",
+    type: "aplikasi",
+    typeLabel: "Aplikasi Nyata",
+    text: "Konsep 'Kacamata Kuda' dalam Mindset 5 mengajarkan LBP untuk...",
+    options: [
+      "Menutup mata terhadap kelemahan produk dan perusahaan agar tetap positif",
+      "Menjaga fokus total pada satu sistem dan satu bisnis tanpa mudah tergoda atau teralihkan oleh hal-hal negatif di sekitar",
+      "Tidak menerima kritikan atau masukan dari orang lain agar tidak goyah",
+      "Menghindari informasi tentang kompetitor agar tidak membingungkan customer"
+    ],
+    correct: 1,
+    feedback: "Tepat! Kacamata kuda = fokus ke depan, bukan menutup mata terhadap realita.",
+    insight: "LBP yang loyal dan fokus pada satu sistem akan berkembang jauh lebih cepat dibanding yang terus berganti-ganti 'peluang' bisnis. Energi yang terpecah menghasilkan hasil yang terpecah juga."
+  },
+
+  // ── APLIKASI TERINTEGRASI (Q19-20) ──
+  {
+    section: "Aplikasi Terintegrasi",
+    sectionShort: "Integrasi",
+    type: "scenario",
+    typeLabel: "Skenario Kompleks",
+    text: "Ahmad: LBP baru 1 bulan, potensi besar, tapi jarang hadir training, sering menunggu arahan upline, dan mudah down saat prospek menolak. Mindset mana yang PALING MENDASAR perlu diperkuat terlebih dahulu?",
+    context: "Ahmad adalah profil tipikal LBP bermental pekerja yang belum bertransformasi.",
+    options: [
+      "Mindset 3 (Obsesi) — ia perlu lebih termotivasi dan bersemangat",
+      "Mindset 5 (Percaya Diri) — ia perlu lebih yakin dengan produk dan diri sendiri",
+      "Mindset 1 (Self-Responsibility) — karena selama ia tidak mengambil tanggung jawab penuh, perbaikan mindset lainnya tidak akan mengakar",
+      "Mindset 4 (Bekerja Keras) — ia perlu disiplin waktu dan hadir training lebih sering"
+    ],
+    correct: 2,
+    feedback: "Tepat! Mindset 1 adalah fondasi — tanpanya, semua mindset lain tidak akan bertahan.",
+    insight: "Seperti bangunan: kamu bisa mengecat, memperindah, dan memperbesar — tapi kalau fondasinya retak, semuanya akan runtuh. Self-responsibility adalah pondasi dari seluruh ekosistem mindset ini."
+  },
+  {
+    section: "Aplikasi Terintegrasi",
+    sectionShort: "Integrasi",
+    type: "aplikasi",
+    typeLabel: "Aplikasi Nyata",
+    text: "Kamu adalah upline yang baru merekrut 3 orang sekaligus minggu ini. Apa urutan PERTAMA yang paling penting dilakukan untuk memastikan mereka bertahan dan berkembang?",
+    options: [
+      "Ajari teknik closing dan prospekting terbaik agar mereka bisa langsung menghasilkan di bulan pertama",
+      "Perkenalkan ke seluruh tim dan pastikan mereka hadir di event besar bulan ini",
+      "Pastikan mereka memiliki WHY yang kuat dan memahami Mindset 1 (Self-Responsibility) sebelum mengajarkan skill apapun",
+      "Berikan target penjualan yang jelas dan motivasi mereka dengan sistem reward"
+    ],
+    correct: 2,
+    feedback: "Benar! Skill tanpa fondasi mindset akan cepat runtuh saat menghadapi tantangan pertama.",
+    insight: "Urutan yang benar: Mindset dulu → WHY yang kuat → baru skill. Kalau urutan ini terbalik, kamu akan terus melatih ulang orang yang sama berulang kali karena mindset-nya tidak pernah dibangun dari awal."
+  }
+];
+
+// ══════════════════════════════════════════════════════════
+// GOOGLE SHEET CONFIG — ganti URL di bawah ini
+// ══════════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1mZJ6vv3pEs2h53kQ_hshiW3cfV8A7qpqcQDjy3RRWGVCav45dF4foT4kIR8y2jJCvA/exec';
+
+async function sendToSheet(data) {
+  const statusEl = document.getElementById('submit-status');
+  statusEl.style.opacity = '1';
+  statusEl.textContent = '⏳ Mengirim hasil ke sistem...';
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    statusEl.textContent = '✅ Hasil berhasil tercatat!';
+    statusEl.style.color = '#4ADE80';
+  } catch (e) {
+    statusEl.textContent = '⚠️ Gagal mengirim — cek koneksi internet.';
+    statusEl.style.color = '#FCA5A5';
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let sectionScores = {};
+let playerName = '';
+
+// init section scores
+QUESTIONS.forEach(q => {
+  if (!sectionScores[q.sectionShort]) sectionScores[q.sectionShort] = { correct: 0, total: 0 };
+});
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+document.getElementById('player-name').addEventListener('input', function() {
+  document.getElementById('btn-start').disabled = this.value.trim().length < 2;
+});
+
+function startQuiz() {
+  playerName = document.getElementById('player-name').value.trim();
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER QUESTION
+// ══════════════════════════════════════════════════════════
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  answered = false;
+
+  // Top bar
+  document.getElementById('q-counter').textContent = `Soal ${currentQ + 1} / ${QUESTIONS.length}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ + 1) / QUESTIONS.length) * 100}%`;
+  document.getElementById('score-display').textContent = score;
+
+  // Section
+  document.getElementById('section-tag').textContent = q.sectionShort;
+  document.getElementById('section-name').textContent = q.section;
+
+  // Type badge
+  const badge = document.getElementById('q-type-badge');
+  badge.textContent = q.typeLabel;
+  badge.className = 'q-type-badge ' + q.type;
+
+  // Question
+  document.getElementById('q-text').textContent = q.text;
+  const ctx = document.getElementById('q-context');
+  if (q.context) {
+    ctx.textContent = q.context;
+    ctx.style.display = 'block';
+  } else {
+    ctx.style.display = 'none';
+  }
+
+  // Options
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span class="opt-text">${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.style.display = 'none';
+
+  // Next btn
+  const next = document.getElementById('btn-next');
+  next.className = 'btn-next';
+  next.textContent = currentQ === QUESTIONS.length - 1 ? 'Lihat Hasil →' : '';
+  next.innerHTML = currentQ === QUESTIONS.length - 1
+    ? 'Lihat Hasil <span class="arrow">→</span>'
+    : 'Soal Berikutnya <span class="arrow">→</span>';
+
+  // Animate card
+  const card = document.getElementById('q-card');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = 'fadeUp 0.35s ease both';
+}
+
+// ══════════════════════════════════════════════════════════
+// SELECT ANSWER
+// ══════════════════════════════════════════════════════════
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentQ];
+  const options = document.querySelectorAll('.option');
+  const isCorrect = idx === q.correct;
+
+  // Track section scores
+  sectionScores[q.sectionShort].total++;
+  if (isCorrect) {
+    score++;
+    sectionScores[q.sectionShort].correct++;
+  }
+
+  // Disable all
+  options.forEach(opt => { opt.disabled = true; });
+
+  // Mark selected
+  if (isCorrect) {
+    options[idx].classList.add('correct');
+  } else {
+    options[idx].classList.add('wrong');
+    options[q.correct].classList.add('reveal-correct');
+  }
+
+  // Feedback
+  const fb = document.getElementById('feedback');
+  fb.style.display = 'block';
+  fb.className = 'feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+
+  document.getElementById('fb-title').textContent = isCorrect ? '✓ Benar!' : '✗ Kurang Tepat';
+  document.getElementById('fb-text').textContent = q.feedback;
+  document.getElementById('fb-insight').textContent = '💡 ' + q.insight;
+
+  // Show next
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('btn-next').classList.add('show');
+}
+
+// ══════════════════════════════════════════════════════════
+// NEXT QUESTION
+// ══════════════════════════════════════════════════════════
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= QUESTIONS.length) {
+    showResult();
+  } else {
+    renderQuestion();
+    // Scroll to top of quiz
+    document.getElementById('screen-quiz').scrollTop = 0;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// RESULT
+// ══════════════════════════════════════════════════════════
+function showResult() {
+  showScreen('screen-result');
+
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-denom').textContent = `dari ${QUESTIONS.length}`;
+
+  // Grade
+  let grade, gradeClass, desc, msgTitle, msgText;
+  if (pct >= 90) {
+    grade = 'A'; gradeClass = 'champion';
+    desc = `Luar biasa, ${playerName}! Kamu sudah menguasai semua fondasi Entrepreneur Mindset.`;
+    msgTitle = '🏆 Champion Attitude!';
+    msgText = 'Pemahaman kamu sudah di level top. Langkah berikutnya: AJARKAN materi ini ke downline kamu. Karena mengajarkan adalah cara terbaik untuk benar-benar menguasai.';
+  } else if (pct >= 75) {
+    grade = 'B'; gradeClass = 'baik';
+    desc = `Bagus, ${playerName}! Pemahaman kamu solid. Beberapa konsep masih bisa diperdalam.`;
+    msgTitle = '💪 Sangat Baik — Tinggal Sedikit Lagi!';
+    msgText = 'Review pertanyaan yang kamu jawab salah dan cari hubungannya dengan situasi nyata di lapangan. Kamu hampir di level Champion.';
+  } else if (pct >= 60) {
+    grade = 'C'; gradeClass = 'cukup';
+    desc = `${playerName}, kamu punya fondasi yang baik. Beberapa area perlu diperkuat.`;
+    msgTitle = '📚 Cukup — Perlu Pendalaman';
+    msgText = 'Baca ulang materi Manual Training, terutama bagian Mindset 1 (Self-Responsibility) dan Mindset 2 (Mental Pengusaha). Kedua mindset ini adalah fondasi dari semua yang lain.';
+  } else {
+    grade = 'D'; gradeClass = 'kurang';
+    desc = `${playerName}, ada beberapa konsep penting yang perlu dipelajari ulang.`;
+    msgTitle = '🔄 Perlu Review Materi';
+    msgText = 'Jangan menyerah — ini adalah pembelajaran. Baca ulang Training Manual dari awal, ikuti sesi live berikutnya, dan coba quiz ini lagi setelah itu.';
+  }
+
+  document.getElementById('res-grade').innerHTML = `Grade: <span class="grade-letter">${grade}</span>`;
+  document.getElementById('res-desc').textContent = desc;
+
+  const msg = document.getElementById('res-message');
+  msg.className = 'result-message ' + gradeClass;
+  document.getElementById('res-msg-title').textContent = msgTitle;
+  document.getElementById('res-msg-text').textContent = msgText;
+
+  // Breakdown
+  const breakdownEl = document.getElementById('breakdown-rows');
+  breakdownEl.innerHTML = '';
+  const sections = [
+    ['Fondasi', 'Fondasi Mindset'],
+    ['Mindset 1', 'Self-Responsibility'],
+    ['Mindset 2', 'Mental Pengusaha'],
+    ['Mindset 3', 'Obsesi'],
+    ['Mindset 4', 'Bekerja Keras'],
+    ['Mindset 5', 'Percaya Diri'],
+    ['Integrasi', 'Aplikasi Nyata'],
+  ];
+  sections.forEach(([key, label]) => {
+    const s = sectionScores[key];
+    if (!s || s.total === 0) return;
+    const pctS = Math.round((s.correct / s.total) * 100);
+    breakdownEl.innerHTML += `
+      <div class="breakdown-row">
+        <div class="breakdown-label">${label}</div>
+        <div class="breakdown-bar-track">
+          <div class="breakdown-bar-fill" style="width:${pctS}%"></div>
+        </div>
+        <div class="breakdown-pct">${s.correct}/${s.total}</div>
+      </div>`;
+  });
+
+  // Animate bars after render
+  setTimeout(() => {
+    document.querySelectorAll('.breakdown-bar-fill').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = w; }, 100);
+    });
+  }, 300);
+
+  // ── Kirim ke Google Sheet ──
+  const sectionKeys = [
+    ['Fondasi', 'Fondasi Mindset'],
+    ['Mindset 1', 'Self-Responsibility'],
+    ['Mindset 2', 'Mental Pengusaha'],
+    ['Mindset 3', 'Obsesi'],
+    ['Mindset 4', 'Bekerja Keras'],
+    ['Mindset 5', 'Percaya Diri'],
+    ['Integrasi', 'Aplikasi Nyata'],
+  ];
+  const payload = {
+    timestamp: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+    nama: playerName,
+    score: score,
+    total: QUESTIONS.length,
+    grade: grade,
+    persen: pct,
+  };
+  sectionKeys.forEach(([key]) => {
+    const s = sectionScores[key];
+    payload[key] = s ? `${s.correct}/${s.total}` : '0/0';
+  });
+
+  if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== 'PASTE_URL_APPS_SCRIPT_DI_SINI') {
+    sendToSheet(payload);
+  } else {
+    const statusEl = document.getElementById('submit-status');
+    statusEl.style.opacity = '1';
+    statusEl.style.color = 'rgba(255,200,0,0.7)';
+    statusEl.textContent = '⚙️ Mode demo — Apps Script URL belum dikonfigurasi.';
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// RETRY
+// ══════════════════════════════════════════════════════════
+function retryQuiz() {
+  currentQ = 0;
+  score = 0;
+  answered = false;
+  sectionScores = {};
+  QUESTIONS.forEach(q => {
+    if (!sectionScores[q.sectionShort]) sectionScores[q.sectionShort] = { correct: 0, total: 0 };
+  });
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+</script>
+</body>
+</html>
